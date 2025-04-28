@@ -2871,6 +2871,125 @@ function NguyenMinhNhat.new(self)
 				end;
 			end;
 
+			function dick:AddImageButton(property)
+    property = property or {};
+    property.Title = property.Title or "ImageButton";
+    property.Image = property.Image or "lucide-image"; -- Icon mặc định
+    property.Callback = property.Callback or function(state) end; -- Callback khi bật/tắt
+
+    local ImageButtonSrc = Instance.new("Frame")
+    local UICorner = Instance.new("UICorner")
+    local UIStroke = Instance.new("UIStroke")
+    local UIGradient = Instance.new("UIGradient")
+    local Label = Instance.new("TextLabel")
+    local mv = Instance.new("Frame")
+    local UICorner_2 = Instance.new("UICorner")
+    local UIStroke_2 = Instance.new("UIStroke")
+    local Image = Instance.new("ImageLabel")
+
+    ImageButtonSrc.Name = NguyenMinhNhat:ChiuMyLy();
+    ImageButtonSrc.Parent = SectionMainFrame;
+    ImageButtonSrc.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+    ImageButtonSrc.BackgroundTransparency = 0.150
+    ImageButtonSrc.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    ImageButtonSrc.BorderSizePixel = 0
+    ImageButtonSrc.ClipsDescendants = true
+    ImageButtonSrc.Size = UDim2.new(1, -5, 0, 30)
+    ImageButtonSrc.ZIndex = 11
+
+    UICorner.CornerRadius = UDim.new(0, 2)
+    UICorner.Parent = ImageButtonSrc
+
+    UIStroke.Parent = ImageButtonSrc
+    UIStroke.Color = Color3.fromRGB(172, 172, 172)
+    UIStroke.Transparency = 0.890
+
+    UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 255, 255)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(243, 243, 243))}
+    UIGradient.Rotation = 90
+    UIGradient.Parent = ImageButtonSrc
+
+    Label.Name = NguyenMinhNhat:ChiuMyLy();
+    Label.Parent = ImageButtonSrc
+    Label.AnchorPoint = Vector2.new(0, 0.5)
+    Label.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Label.BackgroundTransparency = 1.000
+    Label.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    Label.BorderSizePixel = 0
+    Label.Position = UDim2.new(0, 5, 0.5, 0)
+    Label.Size = UDim2.new(1, -40, 0.5, 0)
+    Label.ZIndex = 12
+    Label.Font = Enum.Font.GothamMedium
+    Label.Text = property.Title
+    Label.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Label.TextSize = 12.000
+    Label.TextTransparency = 0.200
+    Label.TextXAlignment = Enum.TextXAlignment.Left
+    Label.RichText = true
+
+    mv.Name = NguyenMinhNhat:ChiuMyLy();
+    mv.Parent = ImageButtonSrc
+    mv.AnchorPoint = Vector2.new(1, 0.5)
+    mv.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+    mv.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    mv.BorderSizePixel = 0
+    mv.ClipsDescendants = true
+    mv.Position = UDim2.new(1, -5, 0.5, 0)
+    mv.Size = UDim2.new(0, 25, 0.600000024, 0)
+    mv.ZIndex = 12
+
+    UICorner_2.CornerRadius = UDim.new(0, 5)
+    UICorner_2.Parent = mv
+
+    UIStroke_2.Parent = mv
+    UIStroke_2.Color = Color3.fromRGB(172, 172, 172)
+    UIStroke_2.Transparency = 0.890
+
+    Image.Name = NguyenMinhNhat:ChiuMyLy();
+    Image.Parent = mv
+    Image.AnchorPoint = Vector2.new(0.5, 0.5)
+    Image.BackgroundTransparency = 1.000
+    Image.Position = UDim2.new(0.5, 0, 0.5, 0)
+    Image.Size = UDim2.new(0.7, 0, 0.7, 0)
+    Image.ZIndex = 12
+    Image.Image = NguyenMinhNhat.Assets[property.Image] or "rbxassetid://10723415040" -- Icon mặc định nếu không tìm thấy
+    Image.ImageColor3 = Color3.fromRGB(255, 255, 255)
+
+    local isToggled = false
+
+    local function toggleUI()
+        isToggled = not isToggled
+        if isToggled then
+            Image.ImageColor3 = Color3.fromRGB(200, 200, 200) -- Xám nhạt khi bật
+        else
+            Image.ImageColor3 = Color3.fromRGB(255, 255, 255) -- Trắng khi tắt
+        end
+        property.Callback(isToggled)
+    end
+
+    local Button = NguyenMinhNhat:NewInput(ImageButtonSrc)
+    Button.MouseButton1Click:Connect(toggleUI)
+
+    function property:SetImage(newImage)
+        Image.Image = NguyenMinhNhat.Assets[newImage] or newImage
+    end
+
+    function property:SetState(state)
+        isToggled = state
+        if isToggled then
+            Image.ImageColor3 = Color3.fromRGB(200, 200, 200)
+        else
+            Image.ImageColor3 = Color3.fromRGB(255, 255, 255)
+        end
+        property.Callback(isToggled)
+    end
+
+    function property:Destroy()
+        ImageButtonSrc:Destroy()
+    end
+
+    return property
+end
+
 			local SectionId = ToggleVal;
 
 			if not obj.SelectedSeciton then
@@ -2976,124 +3095,6 @@ function NguyenMinhNhat.new(self)
 
 		return obj;
 	end;
-    function dick:AddImageButton(property)
-        property = property or {};
-        property.Title = property.Title or "ImageButton";
-        property.Image = property.Image or "lucide-image"; -- Icon mặc định
-        property.Callback = property.Callback or function(state) end; -- Callback khi bật/tắt
-    
-        local ImageButtonSrc = Instance.new("Frame")
-        local UICorner = Instance.new("UICorner")
-        local UIStroke = Instance.new("UIStroke")
-        local UIGradient = Instance.new("UIGradient")
-        local Label = Instance.new("TextLabel")
-        local mv = Instance.new("Frame")
-        local UICorner_2 = Instance.new("UICorner")
-        local UIStroke_2 = Instance.new("UIStroke")
-        local Image = Instance.new("ImageLabel")
-    
-        ImageButtonSrc.Name = NguyenMinhNhat:ChiuMyLy();
-        ImageButtonSrc.Parent = SectionMainFrame;
-        ImageButtonSrc.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-        ImageButtonSrc.BackgroundTransparency = 0.150
-        ImageButtonSrc.BorderColor3 = Color3.fromRGB(0, 0, 0)
-        ImageButtonSrc.BorderSizePixel = 0
-        ImageButtonSrc.ClipsDescendants = true
-        ImageButtonSrc.Size = UDim2.new(1, -5, 0, 30)
-        ImageButtonSrc.ZIndex = 11
-    
-        UICorner.CornerRadius = UDim.new(0, 2)
-        UICorner.Parent = ImageButtonSrc
-    
-        UIStroke.Parent = ImageButtonSrc
-        UIStroke.Color = Color3.fromRGB(172, 172, 172)
-        UIStroke.Transparency = 0.890
-    
-        UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 255, 255)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(243, 243, 243))}
-        UIGradient.Rotation = 90
-        UIGradient.Parent = ImageButtonSrc
-    
-        Label.Name = NguyenMinhNhat:ChiuMyLy();
-        Label.Parent = ImageButtonSrc
-        Label.AnchorPoint = Vector2.new(0, 0.5)
-        Label.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-        Label.BackgroundTransparency = 1.000
-        Label.BorderColor3 = Color3.fromRGB(0, 0, 0)
-        Label.BorderSizePixel = 0
-        Label.Position = UDim2.new(0, 5, 0.5, 0)
-        Label.Size = UDim2.new(1, -40, 0.5, 0)
-        Label.ZIndex = 12
-        Label.Font = Enum.Font.GothamMedium
-        Label.Text = property.Title
-        Label.TextColor3 = Color3.fromRGB(255, 255, 255)
-        Label.TextSize = 12.000
-        Label.TextTransparency = 0.200
-        Label.TextXAlignment = Enum.TextXAlignment.Left
-        Label.RichText = true
-    
-        mv.Name = NguyenMinhNhat:ChiuMyLy();
-        mv.Parent = ImageButtonSrc
-        mv.AnchorPoint = Vector2.new(1, 0.5)
-        mv.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-        mv.BorderColor3 = Color3.fromRGB(0, 0, 0)
-        mv.BorderSizePixel = 0
-        mv.ClipsDescendants = true
-        mv.Position = UDim2.new(1, -5, 0.5, 0)
-        mv.Size = UDim2.new(0, 25, 0.600000024, 0)
-        mv.ZIndex = 12
-    
-        UICorner_2.CornerRadius = UDim.new(0, 5)
-        UICorner_2.Parent = mv
-    
-        UIStroke_2.Parent = mv
-        UIStroke_2.Color = Color3.fromRGB(172, 172, 172)
-        UIStroke_2.Transparency = 0.890
-    
-        Image.Name = NguyenMinhNhat:ChiuMyLy();
-        Image.Parent = mv
-        Image.AnchorPoint = Vector2.new(0.5, 0.5)
-        Image.BackgroundTransparency = 1.000
-        Image.Position = UDim2.new(0.5, 0, 0.5, 0)
-        Image.Size = UDim2.new(0.7, 0, 0.7, 0)
-        Image.ZIndex = 12
-        Image.Image = NguyenMinhNhat.Assets[property.Image] or "rbxassetid://10723415040" -- Icon mặc định nếu không tìm thấy
-        Image.ImageColor3 = Color3.fromRGB(255, 255, 255)
-    
-        local isToggled = false
-    
-        local function toggleUI()
-            isToggled = not isToggled
-            if isToggled then
-                Image.ImageColor3 = Color3.fromRGB(200, 200, 200) -- Xám nhạt khi bật
-            else
-                Image.ImageColor3 = Color3.fromRGB(255, 255, 255) -- Trắng khi tắt
-            end
-            property.Callback(isToggled)
-        end
-    
-        local Button = NguyenMinhNhat:NewInput(ImageButtonSrc)
-        Button.MouseButton1Click:Connect(toggleUI)
-    
-        function property:SetImage(newImage)
-            Image.Image = NguyenMinhNhat.Assets[newImage] or newImage
-        end
-    
-        function property:SetState(state)
-            isToggled = state
-            if isToggled then
-                Image.ImageColor3 = Color3.fromRGB(200, 200, 200)
-            else
-                Image.ImageColor3 = Color3.fromRGB(255, 255, 255)
-            end
-            property.Callback(isToggled)
-        end
-    
-        function property:Destroy()
-            ImageButtonSrc:Destroy()
-        end
-    
-        return property
-    end
 	-----------------------------------------------
 	local dragToggle = nil;
 	local dragSpeed = 0.1;

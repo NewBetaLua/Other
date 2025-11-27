@@ -12,7 +12,7 @@ end
 repeat
     wait()
 until game.Players.LocalPlayer.Character
-loadstring(game:HttpGet("https://raw.githubusercontent.com/viplam087-png/Hjj/main/AttackAndBring.lua"))()
+loadstring(game:HttpGet("https://pastefy.app/tgBsrgBP/raw"))()
 function CheckQuest() 
     MyLevel = game:GetService("Players").LocalPlayer.Data.Level.Value
     if World1 then
@@ -1760,7 +1760,7 @@ gg.__namecall = newcclosure(function(...)
     end
     return old(...)
 end)
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/viplam087-png/Hjj/main/LibraryRedz.lua"))()
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/NewBetaLua/Other/refs/heads/main/RedzUI"))()
 local Window = Library:MakeWindow({
   Title = "Hiru Hub : Blox Fruits",
   SubTitle = "by Kiddo",

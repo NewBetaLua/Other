@@ -8,18 +8,7 @@ elseif game.PlaceId == 4442272183 then
 elseif game.PlaceId == 7449423635 then
     World3 = true
 end
-local function setTeam(teamName)
-    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetTeam", teamName)
-end
-local player = game.Players.LocalPlayer
-local playerGui = player:WaitForChild("PlayerGui")
-if getgenv().Settings.JoinTeam then
-    local minimal = playerGui:FindFirstChild("Main (minimal)")
-    if minimal then
-        task.wait(5)
-        setTeam(getgenv().Settings.Team)
-    end
-end
+
 repeat
     wait()
 until game.Players.LocalPlayer.Character
